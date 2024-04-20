@@ -2,28 +2,6 @@ document.addEventListener('DOMContentLoaded', function () {
   let headerContentWidth, $nav
   let mobileSidebarOpen = false
 
-  const adjustMenu = init => {
-    const getAllWidth = ele => {
-      return Array.from(ele).reduce((width, i) => width + i.offsetWidth, 0)
-    }
-
-    if (init) {
-      const blogInfoWidth = getAllWidth(document.querySelector('#blog-info > a').children)
-      const menusWidth = getAllWidth(document.getElementById('menus').children)
-      headerContentWidth = blogInfoWidth + menusWidth
-      $nav = document.getElementById('nav')
-    }
-
-    const hideMenuIndex = window.innerWidth <= 768 || headerContentWidth > $nav.offsetWidth - 120
-    $nav.classList.toggle('hide-menu', hideMenuIndex)
-  }
-
-  // 初始化header
-  const initAdjust = () => {
-    adjustMenu(true)
-    $nav.classList.add('show')
-  }
-
   // sidebar menus
   const sidebarFn = {
     open: () => {
@@ -841,7 +819,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const unRefreshFn = function () {
     window.addEventListener('resize', () => {
-      adjustMenu(false)
       mobileSidebarOpen && btf.isHidden(document.getElementById('toggle-menu')) && sidebarFn.close()
     })
 
@@ -875,7 +852,6 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   const refreshFn = () => {
-    initAdjust()
 
     if (GLOBAL_CONFIG_SITE.isPost) {
       GLOBAL_CONFIG.noticeOutdate !== undefined && addPostOutdateNotice()
